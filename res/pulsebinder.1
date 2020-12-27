@@ -1,0 +1,145 @@
+.TH pulsebinder 1
+
+.SH NAME
+pulsebinder \- Pulseaudio command line mixer meant for scripting
+
+.SH SYNOPSIS
+.B pulsebinder
+[commands]
+
+.TP
+.BI pulsebinder " --interactive"
+.br
+For interactive mode
+
+.SH DESCRIPTION
+.B pulsebinder
+allows you to manipulate Pulseaudio devices.
+
+.SH COMMANDS
+
+.SS LIST
+
+.TP
+.B "list"
+.br
+List all Pulseaudio devices.
+
+.TP
+.B "list-sinks"
+.br
+List all sinks (Usually physical or virtual devices).
+
+.TP
+.B "list-sources"
+.br
+List all sources (Usually physical or virtual devices).
+
+.TP
+.B "list-sink-inputs"
+.br
+List all sink inputs (Usually apps that input audio into a sink).
+
+.TP
+.B "list-source-outputs"
+.br
+List all source outputs (Usually apps that read a source's output).
+
+.TP
+.B "default-sink"
+.br
+Print the name of the default sink.
+
+.TP
+.B "default-source"
+.br
+Print the name of the default source.
+
+.SS SELECTION
+
+Commands related to selecting devices upon which subsequent
+operations are performed.
+
+The default sink is selected by default.
+
+.TP
+.BI "sink-by-id" " INDEX"
+.br
+Select the sink with the given index.
+
+.TP
+.BI "sink-by-name" " NAME"
+.br
+Select the sink with the given name.
+
+.TP
+.BI "sink-by-fancy-name" " NAME"
+.br
+Select the sink with the given fancy name.
+
+.TP
+.B "sink-by-default"
+.br
+Select the default sink.
+
+.TP
+.BI "source-by-id" " INDEX"
+.br
+Select the source with the given index.
+
+.TP
+.BI "source-by-name" " NAME"
+.br
+Select the source with the given name.
+
+.TP
+.BI "source-by-fancy-name" " NAME"
+.br
+Select the source with the given fancy name.
+
+.TP
+.B "source-by-default"
+.br
+Select the default source.
+
+.SS QUERIES
+
+Commands in this section act on the last selected device or on the default sink
+if no selection was done.
+
+.TP
+.B "volume"
+.br
+Return the average volume of all channels.
+
+.TP
+.B "channel-volume"
+.br
+Return a space-separated list of the volume for each channel
+
+.TP
+.B "is-mute"
+.br
+Return if the device is muted or not (true/false)
+
+.TP
+.B "print"
+.br
+Print all available information for the device in a comma-separated list.
+
+.SS MANIPULATION
+
+Commands in this section act on the last selected device or on the default sink
+if no selection was done.
+
+.SH "OPERATING MODES"
+
+.SS "COMMAND MODE"
+
+.SS "INTERACTIVE MODE"
+
+.SH SEE ALSO
+.BR amixer (1),
+.BR alsamixer (1),
+.BR pamixer (1),
+.BR pulseaudio (1)
