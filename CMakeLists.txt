@@ -7,7 +7,7 @@ add_executable(pulsebinder exec/main.cpp)
 target_link_libraries(pulsebinder PUBLIC pulsebind)
 
 INSTALL(FILES ${CMAKE_HOME_DIRECTORY}/res/pulsebinder.1
-  DESTINATION ${CMAKE_INSTALL_PREFIX}/man/man1)
+  DESTINATION ${CMAKE_INSTALL_PREFIX}/share/man/man1)
 
 INSTALL(TARGETS pulsebinder
   RUNTIME DESTINATION bin)

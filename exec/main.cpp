@@ -136,6 +136,8 @@ int main(int argc, char **argv) {
   // is-mute              | Return mute status
   // print                | Print all info available for selected device
 
+  selected = {Pulsebind::UNDEFINED};
+
   for (int i = 1; i < argc; i++) {
     char *command = argv[i];
     size_t command_len = strlen(command);
@@ -460,7 +462,48 @@ int main(int argc, char **argv) {
         std::cout << hws->mute << std::endl;
       }
     } else if (strcmp(command, "print") == 0) {
-      Pulsebind::printDevice(pa, selected, format);
+
+      if (selected.type != Pulsebind::UNDEFINED) {
+        char *pformat;
+        if (format == nullptr) {
+          switch (selected.type) {
+          case Pulsebind::SINK:
+          case Pulsebind::SOURCE:
+            if (human) {
+              pformat = SINK_OR_SOURCE_FORMAT_HUMAN;
+            } else {
+              pformat = SINK_OR_SOURCE_FORMAT;
+            }
+            break;
+          case Pulsebind::SINK_INPUT:
+          case Pulsebind::SOURCE_OUTPUT:
+            if (human) {
+              pformat = INPUT_OR_OUTPUT_FORMAT_HUMAN;
+            } else {
+              pformat = INPUT_OR_OUTPUT_FORMAT;
+            }
+            break;
+          case Pulsebind::UNDEFINED:
+            pformat = "UNDEFINED SELECTION";
+            break;
+          }
+        }
+        Pulsebind::printDevice(pa, selected, pformat);
+      } else {
+        if (!sinks.array)
+          sinks = Pulsebind::getSinks(pa);
+        Pulsebind::Sink *hws =
+            Pulsebind::getSinkByName(sinks, server.defaultSinkName);
+        if (!hws) {
+          std::cerr << "Failed to get default sink. Aborting...";
+          break;
+        }
+        Pulsebind::Device d =
+            Pulsebind::newDevice(pa, Pulsebind::SINK, (void *)hws);
+        Pulsebind::printDevice(pa, d,
+                               human ? SINK_OR_SOURCE_FORMAT_HUMAN
+                                     : SINK_OR_SOURCE_FORMAT);
+      }
     } else if (strcmp(command, "human") == 0) {
       human = true;
     } else if (strcmp(command, "machine") == 0) {
